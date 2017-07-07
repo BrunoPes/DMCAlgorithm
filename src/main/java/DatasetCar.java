@@ -1,16 +1,25 @@
+
 import java.io.*;
 import java.util.*;
 
 public class DatasetCar {
-	private String path = "../../../car.data.txt";
+	private String path = "../../../../car.data.txt";
 	private ArrayList<Car> cars = new ArrayList<Car>();
 
-	public DatasetCar() {}
+	public DatasetCar() {
+		File currDir = new File(".");
+		String dir = currDir.getAbsolutePath().substring(0, currDir.getAbsolutePath().length()-1);
+		this.path = (dir.split("dmcalgorithm"))[0]+"dmcalgorithm/car.data.txt";
+		System.out.println("Dataset path is: " + this.path);
+		this.readDatasetFile();
+	}
 
 	public DatasetCar(String pathDataset) {
 		if(pathDataset != null && pathDataset.length() > 0) {
 			this.path = pathDataset;
 		}
+		System.out.println("Dataset path is: " + this.path);
+		this.readDatasetFile();
 	}
 
 	public void readDatasetFile() {
@@ -19,7 +28,7 @@ public class DatasetCar {
 		    String line = br.readLine();
 
 		    while (line != null) {
-		        this.cars.add(new Car(line.split(",")));
+		        cars.add(new Car(line.split(",")));
 		        line = br.readLine();
 		    }
 		    br.close();
@@ -45,10 +54,8 @@ public class DatasetCar {
 		return this.cars;
 	}
 
-
 	public static void main(String[] args) {
 		DatasetCar dataset = new DatasetCar();
-		dataset.readDatasetFile();
 	}
 }
 
@@ -58,7 +65,6 @@ class Car {
 	private CarClass carClass;
 
 	public Car() {}
-
 	public Car(String[] attrs) {
 		for(int i=0; i < attrs.length; i++) {
 			attrs[i] = attrs[i].toUpperCase().trim();
